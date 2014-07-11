@@ -1,0 +1,14 @@
+{
+  "name": "ease-blink",
+  "main": "./lib/ease-blink",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Ease cursor blinking",
+  "repository": "https://github.com/miraks/ease-blink",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
