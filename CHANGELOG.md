@@ -1,3 +1,6 @@
+## 0.2.0
+* Blink period is now editable
+
 ## 0.1.2
 * Fix high CPU utilization with vim-mode when Atom window is not focused
 
