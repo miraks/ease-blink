@@ -23,8 +23,8 @@ module.exports =
 
   updateEditorView: (value) ->
     return unless atom.config.get 'core.useReactEditor'
-    @editorWatchObserver?.off()
-    @editorWatchObserver = atom.workspaceView.eachEditorView (view) =>
+    @editorViewsObserver?.off()
+    @editorViewsObserver = atom.workspaceView.eachEditorView (view) =>
       view.component.props.cursorBlinkPeriod = value
 
   updateCssRule: (value) ->
