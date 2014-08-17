@@ -1,5 +1,6 @@
 _ = require 'underscore-plus'
-CursorView = require atom.getLoadSettings().resourcePath + '/src/cursor-view'
+path = require 'path'
+CursorView = require path.join(atom.getLoadSettings().resourcePath, 'src/cursor-view')
 
 module.exports =
   configDefaults:
