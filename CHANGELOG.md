@@ -1,3 +1,7 @@
+## 0.3.0
+* Drop atom < 0.124.0 support
+* Fix work with recent atom versions
+
 ## 0.2.0
 * Blink period is now editable
 
