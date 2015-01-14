@@ -1,10 +1,11 @@
 _ = require 'underscore-plus'
-path = require 'path'
-CursorView = require path.join(atom.getLoadSettings().resourcePath, 'src/cursor-component')
 
 module.exports =
   configDefaults:
     blinkPeriod: 800
+
+  cssSelector: 'atom-text-editor .cursor, atom-text-editor::shadow .cursor'
+  cssRule: 'transitionDuration'
 
   activate: (state) ->
     @setupConfigObserver()
@@ -13,29 +14,23 @@ module.exports =
     atom.config.observe 'ease-blink.blinkPeriod', @changeBlinkPeriod.bind(@)
 
   changeBlinkPeriod: (value) ->
-    ['updateCursorView', 'updateEditorView', 'updateCssRule'].forEach (methodName) =>
-      @[methodName] value
+    ['updateEditorViews', 'updateCssRule'].forEach (method) =>
+      @[method] value
+      true
 
-  updateCursorView: (value) ->
-    CursorView.blinkPeriod = value
-    return unless CursorView.blinkInterval?
-    clearInterval CursorView.blinkInterval
-    CursorView.blinkInterval = setInterval CursorView.blinkCursors.bind(CursorView), CursorView.blinkPeriod / 2
-
-  updateEditorView: (value) ->
-    return unless atom.config.get 'core.useReactEditor'
+  updateEditorViews: (value) ->
     @editorViewsObserver?.off()
-    @editorViewsObserver = atom.workspaceView.eachEditorView (view) =>
-      view.component.props.cursorBlinkPeriod = value
+    @editorViewsObserver = atom.workspaceView.eachEditorView (view) ->
+      view.component.setProps cursorBlinkPeriod: value
 
   updateCssRule: (value) ->
-    @getCssRule().style.transitionDuration = "#{value / 2000}s"
+    @getCssRule().style[@cssRule] = "#{value / 2000}s"
 
   getCssRule: ->
-    @cssRule ||= _.chain document.styleSheets
+    _.chain document.styleSheets
       .map (stylesheet) ->
-        Array::slice.call stylesheet.cssRules
+        _.toArray stylesheet.cssRules
       .flatten()
-      .find (rule) ->
-        rule.selectorText == '.cursor' and rule.style.transitionDuration.length > 0
+      .find (rule) =>
+        rule.selectorText == @cssSelector and rule.style[@cssRule].length > 0
       .value()

@@ -1,22 +1,16 @@
-.cursor {
-  transition: opacity .4s ease;
-}
+atom-text-editor, atom-text-editor::shadow {
+  .cursor {
+    transition: opacity .4s ease;
+  }
 
-.editor.is-focused .cursor,
-.editor-contents.is-focused .cursor,
-.editor.react .editor-contents.is-focused .cursor {
-  opacity: 1;
-}
+  .editor {
+    .cursor {
+      opacity: 1;
+    }
 
-.editor .cursor,
-.editor.is-focused .cursor.blink-off,
-.cursors.blink-off .cursor,
-.editor.react .cursors.blink-off .cursor {
-  visibility: visible;
-  opacity: 0;
-}
-
-.vim-mode.editor:not(.is-focused) .cursors .cursor {
-  transition: opacity 0s ease;
-  visibility: hidden;
+    .cursors.blink-off .cursor {
+      opacity: 0;
+      visibility: visible;
+    }
+  }
 }
