@@ -20,7 +20,7 @@ module.exports =
 
   updateEditorViews: (value) ->
     @editorViewsObserver?.off()
-    @editorViewsObserver = atom.workspaceView.eachEditorView (view) ->
+    @editorViewsObserver = atom.views.getView(atom.workspace).eachEditorView (view) ->
       view.component.setProps cursorBlinkPeriod: value
 
   updateCssRule: (value) ->
