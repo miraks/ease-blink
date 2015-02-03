@@ -1,3 +1,6 @@
+## 0.4.1
+* Fix depreaction warnings
+
 ## 0.4.0
 * Add shadow DOM support
 * Drop non-React editor support
