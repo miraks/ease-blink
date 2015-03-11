@@ -19,9 +19,17 @@ module.exports =
       true
 
   updateEditorViews: (value) ->
-    @editorViewsObserver?.off()
-    @editorViewsObserver = atom.views.getView(atom.workspace).eachEditorView (view) ->
-      view.component.setProps cursorBlinkPeriod: value
+    @textEditorsObserver?.dispose()
+
+    @textEditorsObserver = atom.workspace.observeTextEditors (editor) ->
+      view = atom.views.getView editor
+      {component} = view
+      {presenter} = component
+
+      component.cursorBlinkPeriod = value
+      presenter.cursorBlinkPeriod = value
+      presenter.stopBlinkingCursors()
+      presenter.startBlinkingCursors()
 
   updateCssRule: (value) ->
     @getCssRule().style[@cssRule] = "#{value / 2000}s"
