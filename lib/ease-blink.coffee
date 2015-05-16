@@ -1,8 +1,11 @@
 _ = require 'underscore-plus'
 
 module.exports =
-  configDefaults:
-    blinkPeriod: 800
+  config:
+    blinkPeriod:
+      type: 'integer'
+      default: 800
+      minimum: 1
 
   cssSelector: 'atom-text-editor .cursor, atom-text-editor::shadow .cursor'
   cssRule: 'transitionDuration'
