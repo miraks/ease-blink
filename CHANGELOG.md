@@ -1,9 +1,12 @@
+## 0.5.1
+* Fix deprecation warnings
+
 ## 0.5.0
 * Use recent api to access text editors
 * Drop atom < 0.178.0 support
 
 ## 0.4.1
-* Fix depreaction warnings
+* Fix deprecation warnings
 
 ## 0.4.0
 * Add shadow DOM support
