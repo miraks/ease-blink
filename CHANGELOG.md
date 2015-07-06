@@ -1,3 +1,6 @@
+## 0.5.2
+* Bugfix
+
 ## 0.5.1
 * Fix deprecation warnings
 
