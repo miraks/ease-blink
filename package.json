@@ -2,14 +2,18 @@
   "name": "ease-blink",
   "main": "./lib/ease-blink",
   "version": "0.5.2",
-  "private": true,
   "description": "Ease cursor blinking",
+  "keywords": [
+    "ui",
+    "cursor",
+    "blink",
+    "interval"
+  ],
   "repository": "https://github.com/miraks/ease-blink",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.178.0"
+    "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "underscore-plus": "1.x"
   }
 }

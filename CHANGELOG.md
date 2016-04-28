@@ -1,5 +1,12 @@
+## 0.6.0
+* Drop atom < 1.0 support
+* Remove underscore-plus dependency
+* Dispose a config observer on the package disable
+* Refactoring
+* Bugfix (#6)
+
 ## 0.5.2
-* Bugfix
+* Bugfix (#6)
 
 ## 0.5.1
 * Fix deprecation warnings

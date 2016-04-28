@@ -1,4 +1,4 @@
-_ = require 'underscore-plus'
+{ CompositeDisposable } = require 'atom'
 
 module.exports =
   config:
@@ -7,19 +7,23 @@ module.exports =
       default: 800
       minimum: 1
 
+  stylesheetName: 'ease-blink.less'
   cssSelector: 'atom-text-editor .cursor, atom-text-editor::shadow .cursor'
   cssRule: 'transitionDuration'
 
-  activate: (state) ->
+  activate: ->
+    @disposable = new CompositeDisposable
     @setupConfigObserver()
 
+  deactivate: ->
+    @disposable.dispose()
+
   setupConfigObserver: ->
-    atom.config.observe 'ease-blink.blinkPeriod', @changeBlinkPeriod.bind(@)
+    @disposable.add atom.config.observe('ease-blink.blinkPeriod', @changeBlinkPeriod.bind(@))
 
   changeBlinkPeriod: (value) ->
-    ['updateEditorViews', 'updateCssRule'].forEach (method) =>
-      @[method] value
-      true
+    @updateEditorViews value
+    @updateCssRule value
 
   updateEditorViews: (value) ->
     @textEditorsObserver?.dispose()
@@ -29,11 +33,13 @@ module.exports =
 
   patchBlinkPeriod: (value, editor, retry = false) ->
     view = atom.views.getView editor
-    {component} = view
+    { component } = view
+
     unless component?
-      setImmediate _.partial(@patchBlinkPeriod, value, editor) if retry
+      setImmediate(=> @patchBlinkPeriod(value, editor)) if retry
       return
-    {presenter} = component
+
+    { presenter } = component
 
     component.cursorBlinkPeriod = value
     presenter.cursorBlinkPeriod = value
@@ -41,13 +47,15 @@ module.exports =
     presenter.startBlinkingCursors()
 
   updateCssRule: (value) ->
-    @getCssRule().style[@cssRule] = "#{value / 2000}s"
+    cssRule = @getCssRule()
+    return unless cssRule?
+    cssRule.style[@cssRule] = "#{value / 2000}s"
 
   getCssRule: ->
-    _.chain document.styleSheets
-      .map (stylesheet) ->
-        _.toArray stylesheet.cssRules
-      .flatten()
-      .find (rule) =>
-        rule.selectorText == @cssSelector and rule.style[@cssRule].length > 0
-      .value()
+    stylesheet = Array.from(document.styleSheets).find ({ ownerNode }) =>
+      ownerNode.sourcePath.endsWith @stylesheetName
+
+    return unless stylesheet?
+
+    Array.from(stylesheet.cssRules).find ({ selectorText }) =>
+      selectorText == @cssSelector
