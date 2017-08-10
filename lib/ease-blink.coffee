@@ -8,7 +8,7 @@ module.exports =
       minimum: 1
 
   stylesheetName: 'ease-blink.less'
-  cssSelector: 'atom-text-editor .cursor, atom-text-editor::shadow .cursor'
+  cssSelector: 'atom-text-editor .cursor'
   cssRule: 'transitionDuration'
 
   activate: ->
@@ -39,12 +39,9 @@ module.exports =
       setImmediate(=> @patchBlinkPeriod(value, editor)) if retry
       return
 
-    { presenter } = component
-
-    component.cursorBlinkPeriod = value
-    presenter.cursorBlinkPeriod = value
-    presenter.stopBlinkingCursors()
-    presenter.startBlinkingCursors()
+    component.props.cursorBlinkPeriod = value
+    component.stopCursorBlinking()
+    component.startCursorBlinking()
 
   updateCssRule: (value) ->
     cssRule = @getCssRule()
