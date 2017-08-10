@@ -1,3 +1,13 @@
+## 0.8.1
+* Fix cursor presence in unfocused editors
+
+## 0.8.0
+* Support for atom >= 1.19.0
+* Drop support for atom <= 1.18.0
+
+## 0.7.0
+* Drop shadow DOM support
+
 ## 0.6.0
 * Drop atom < 1.0 support
 * Remove underscore-plus dependency
